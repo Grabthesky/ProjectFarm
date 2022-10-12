@@ -22,7 +22,7 @@ public class GrowModelInfo{
 
 [System.Serializable]
 public class PlayerInventory{
-    public List<SeedInventoryItem> seedsInventoryList;
+    public List<SeedInventoryItem> seedsInventoryList = new List<SeedInventoryItem>();
 }
 
 [System.Serializable]

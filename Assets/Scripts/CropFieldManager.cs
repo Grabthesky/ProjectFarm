@@ -8,7 +8,7 @@ public class CropFieldManager : MonoBehaviour
     private CropFieldsData saveCropFields;
 
     private void Start() {
-        if(LoadSaveSystem.singleton != null){ 
+        if(LoadSaveSystem.singleton != null && LoadSaveSystem.singleton.cropFieldsData != null){ 
             saveCropFields = LoadSaveSystem.singleton.cropFieldsData; 
             PopulateCropFields();
         }

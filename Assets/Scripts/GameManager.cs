@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
         season = customTime.GetSeason();
         Debug.Log(customTime.ToString());
         Debug.Log(customTime.GetSeason());
-        if(LoadSaveSystem.singleton != null){ playerInventory = LoadSaveSystem.singleton.loadedInventory; }
+        if(LoadSaveSystem.singleton != null && LoadSaveSystem.singleton.loadedInventory != null){ playerInventory = LoadSaveSystem.singleton.loadedInventory; }
     }
 
     private void OnApplicationPause(bool pauseStatus) {
@@ -57,11 +57,12 @@ public class GameManager : MonoBehaviour
         int index = FindSeedOnList(seed);
         if(index >= 0){
             playerInventory.seedsInventoryList[index].quantity += quantity;
+            UIManager.singleton?.UpdateSeedListItem(seed, playerInventory.seedsInventoryList[index].quantity);
         }else{
             playerInventory.seedsInventoryList.Add(new SeedInventoryItem(seed, quantity));
+            UIManager.singleton?.FillSeedsMenu();
         }
 
-        UIManager.singleton.UpdateSeedListItem(seed, playerInventory.seedsInventoryList[index].quantity);
     }
 
     public bool CheckIfHasEnoughSeeds(SeedInfo seed = null){

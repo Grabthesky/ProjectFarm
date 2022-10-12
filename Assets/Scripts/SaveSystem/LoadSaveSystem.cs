@@ -10,6 +10,7 @@ public class LoadSaveSystem : MonoBehaviour
 
     [Header("Classes")]
     public static LoadSaveSystem singleton;
+    
     public PlayerInventory loadedInventory;
     public CropFieldsData cropFieldsData;
 
