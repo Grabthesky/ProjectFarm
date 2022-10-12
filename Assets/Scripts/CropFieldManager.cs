@@ -49,6 +49,10 @@ public class CropFieldManager : MonoBehaviour
 
     private void PopulateCropFields(){
         GameObject[] cropFields = GameObject.FindGameObjectsWithTag("CropField");
+
+        CustomTime now = new CustomTime();
+        long passedTime = now.GetDiffOfTime(saveCropFields.saveTime);
+        
         
         foreach (CropField cropFieldData in saveCropFields.saveCropFields)
         {

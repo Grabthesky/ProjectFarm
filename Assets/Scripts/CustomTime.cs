@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Globalization;
 
 [System.Serializable]
 public class CustomTime {
@@ -52,15 +53,17 @@ public class CustomTime {
         }
     }
 
-    public void GetDiffOfTime(CustomTime lastTime){
+    public long GetDiffOfTime(string lastTime){
 
         //ConvertInSeconds
         //*LastTime
-        long unixTimeLast = ((DateTimeOffset)DateTime.Parse(lastTime.ReturnDateTimeString())).ToUnixTimeSeconds();
+        long unixTimeLast = ((DateTimeOffset)DateTime.ParseExact(lastTime, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture)).ToUnixTimeSeconds();
         long unixTimeNow = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
         Debug.LogWarning("Last: " + unixTimeLast);
         Debug.LogWarning("Now: " + unixTimeNow);
-        
+        Debug.LogWarning("Diff: " + (unixTimeNow - unixTimeLast));
+
+        return (unixTimeNow - unixTimeLast);
     }
 
     public override string ToString() {
