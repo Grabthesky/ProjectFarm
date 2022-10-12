@@ -11,5 +11,6 @@ public class SeedMenuController : MonoBehaviour
 
     public void HideSeedMenu(){
         GetComponent<Animator>().Play("HideSeedMenu", 0);
+        GameManager.singleton.selectedSeed = null;
     }
 }
