@@ -10,18 +10,14 @@ public class CustomTime {
     public int day, month, year, hours, minutes, seconds;
 
     public CustomTime(){
-        string date = DateTime.UtcNow.ToString(); //09/28/2022 19:57:51
-
-        string[] dateTimeSplit = date.Split(" ");
-        string[] dateSplit = dateTimeSplit[0].Split("/");
-        string[] timeSplit = dateTimeSplit[1].Split(":");
-
-        day = int.Parse(dateSplit[0]);
-        month = int.Parse(dateSplit[1]);
-        year = int.Parse(dateSplit[2]);
-        hours = int.Parse(timeSplit[0]);
-        minutes = int.Parse(timeSplit[1]);
-        seconds = int.Parse(timeSplit[2]);
+        DateTime dateTime = DateTime.UtcNow; //09/28/2022 19:57:51
+        
+        day = dateTime.Day;
+        month = dateTime.Month;
+        year = dateTime.Year;
+        hours = dateTime.Hour;
+        minutes = dateTime.Minute;
+        seconds = dateTime.Second;
     }
 
     public CustomTime(string dateTime){
@@ -57,7 +53,7 @@ public class CustomTime {
 
         //ConvertInSeconds
         //*LastTime
-        long unixTimeLast = ((DateTimeOffset)DateTime.ParseExact(lastTime, "MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture)).ToUnixTimeSeconds();
+        long unixTimeLast = ((DateTimeOffset)DateTime.ParseExact(lastTime, "dd/MM/yyyy H:mm:ss", CultureInfo.InvariantCulture)).ToUnixTimeSeconds();
         long unixTimeNow = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
         Debug.LogWarning("Last: " + unixTimeLast);
         Debug.LogWarning("Now: " + unixTimeNow);

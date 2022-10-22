@@ -12,9 +12,9 @@ public class GameManager : MonoBehaviour
     [Header("Seeds")]
     public SeedInfo selectedSeed;
     public PlayerInventory playerInventory;
+    public List<SeedInfo> allTheSeeds;
     [HideInInspector] public List<GameObject> seedsObjectList;
-
-    private CustomTime customTime;
+    [HideInInspector] public CustomTime customTime;
 
     private void Awake() {
         if(singleton == null){ singleton = this; }
@@ -26,7 +26,11 @@ public class GameManager : MonoBehaviour
         season = customTime.GetSeason();
         Debug.Log(customTime.ToString());
         Debug.Log(customTime.GetSeason());
-        if(LoadSaveSystem.singleton != null && LoadSaveSystem.singleton.loadedInventory != null){ playerInventory = LoadSaveSystem.singleton.loadedInventory; }
+        if(LoadSaveSystem.singleton != null && LoadSaveSystem.singleton.loadedInventory != null){
+            // Cast to PlayerInventory
+            S_PlayerInventory loadedInventory = LoadSaveSystem.singleton.loadedInventory;
+            playerInventory = CastToPlayerInventory(loadedInventory);
+        }
     }
 
     private void OnApplicationPause(bool pauseStatus) {
@@ -50,6 +54,10 @@ public class GameManager : MonoBehaviour
             playerInventory.seedsInventoryList[index].quantity -= 1;
 
             UIManager.singleton.UpdateSeedListItem(seedToSubstract, playerInventory.seedsInventoryList[index].quantity);
+            
+            if(playerInventory.seedsInventoryList[index].quantity <= 0){
+                playerInventory.seedsInventoryList.RemoveAt(index);
+            }
         }
     }
 
@@ -81,6 +89,19 @@ public class GameManager : MonoBehaviour
             }
         }
         return -1;
+    }
+
+    public SeedInfo GetSeedByName(string seedName){
+        foreach(SeedInfo seedInfo in allTheSeeds){
+            if(seedInfo.seedName.Equals(seedName)){
+                return seedInfo;
+            }
+        }
+        return null;
+    }
+
+    private PlayerInventory CastToPlayerInventory(S_PlayerInventory loadedInventory){
+        return new PlayerInventory(loadedInventory, allTheSeeds);
     }
 
 }

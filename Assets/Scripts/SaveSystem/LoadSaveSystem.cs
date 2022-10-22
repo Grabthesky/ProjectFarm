@@ -11,8 +11,8 @@ public class LoadSaveSystem : MonoBehaviour
     [Header("Classes")]
     public static LoadSaveSystem singleton;
     
-    public PlayerInventory loadedInventory;
-    public CropFieldsData cropFieldsData;
+    public S_PlayerInventory loadedInventory;
+    public S_CropFieldsData cropFieldsData;
 
     private void Awake() {
         if(singleton == null){ singleton = this;}
@@ -42,7 +42,7 @@ public class LoadSaveSystem : MonoBehaviour
     
     #region CROPFIELDS
 
-    public void SaveCropFields(CropFieldsData cropFieldsData){
+    public void SaveCropFields(S_CropFieldsData cropFieldsData){
         Debug.LogWarning("Saving Cropfields Data");
         Serializer.SaveCropFields(cropFieldsData);
         Debug.Log("CROPFIELDS DATA SAVED!");

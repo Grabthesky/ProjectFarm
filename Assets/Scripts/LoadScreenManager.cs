@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Android;
 
 public class LoadScreenManager : MonoBehaviour
 {
@@ -19,6 +20,11 @@ public class LoadScreenManager : MonoBehaviour
     }
 
     private void Start() {
+        if (!Permission.HasUserAuthorizedPermission(Permission.ExternalStorageWrite))
+        {
+            Permission.RequestUserPermission(Permission.ExternalStorageWrite);
+        }
+
         Invoke(nameof(StartLoadingData), .5f);
     }
 

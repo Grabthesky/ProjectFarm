@@ -55,17 +55,20 @@ public class UIManager : MonoBehaviour
             List<GameObject> seedsObjects = new List<GameObject>();
 
             RemoveAllChilds(seedsListContent);
+            seedItemList.Clear();
 
             foreach(SeedInventoryItem seed in seeds){
-                GameObject seedObject = Instantiate(seedsListItemPrefab, seedsListContent.transform);
-                seedObject.GetComponent<SeedListItemManager>().seedSprite = seed.seed.seedImage;
-                seedObject.GetComponent<SeedListItemManager>().seedQuantity = seed.quantity;
-                seedObject.GetComponent<SeedListItemManager>().seedData = seed.seed;
-                seedObject.GetComponent<SeedListItemManager>().SetData();
-                if(seed.quantity <= 0){
-                    seedObject.GetComponent<Button>().interactable = false;
+                if(seed.quantity > 0){
+                    GameObject seedObject = Instantiate(seedsListItemPrefab, seedsListContent.transform);
+                    seedObject.GetComponent<SeedListItemManager>().seedSprite = seed.seed.seedImage;
+                    seedObject.GetComponent<SeedListItemManager>().seedQuantity = seed.quantity;
+                    seedObject.GetComponent<SeedListItemManager>().seedData = seed.seed;
+                    seedObject.GetComponent<SeedListItemManager>().SetData();
+                    if(seed.quantity <= 0){
+                        seedObject.GetComponent<Button>().interactable = false;
+                    }
+                    seedItemList.Add(seedObject);
                 }
-                seedItemList.Add(seedObject);
             }
 
             GameManager.singleton.seedsObjectList = seedsObjects;
@@ -76,8 +79,13 @@ public class UIManager : MonoBehaviour
     public void UpdateSeedListItem(SeedInfo seed, int quantity){
         int index = GetSeedIndexBySeed(seed);
         if(index >= 0){
-            seedItemList[index].GetComponent<SeedListItemManager>().seedQuantity = quantity;
-            seedItemList[index].GetComponent<SeedListItemManager>().SetData();
+            if(quantity > 0){
+                seedItemList[index].GetComponent<SeedListItemManager>().seedQuantity = quantity;
+                seedItemList[index].GetComponent<SeedListItemManager>().SetData();
+            }else{
+                Destroy(seedItemList[index]);
+                seedItemList.RemoveAt(index);
+            }
         }
     }
 

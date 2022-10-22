@@ -33,7 +33,7 @@ public class CropFieldController : MonoBehaviour, IPointerClickHandler
             timeToNextStage -= Time.deltaTime;
         }else if(hasSeed && timeToNextStage <= 0){
             //Grow to next stage
-            if(plantStage < seedInfo.growStages.Count -1){
+            if(seedInfo != null && plantStage < seedInfo.growStages.Count - 1){
                 plantStage++;
                 SetPlantByStage();
             }else{
@@ -71,6 +71,7 @@ public class CropFieldController : MonoBehaviour, IPointerClickHandler
             seedInfo = null;
             plantStage = 0;
             timeToNextStage = 0;
+            hitboxBlock.SetActive(false);
 
             //Particle from pickup
             GameObject pickupPart = Instantiate(pickupParticle, plantSpot.transform);
@@ -79,11 +80,13 @@ public class CropFieldController : MonoBehaviour, IPointerClickHandler
     }
 
     public void LoadCropField(){
-        GameObject plant = Instantiate(seedInfo.growStages[plantStage].growModel, plantSpot.transform);
-        if(seedInfo.allowRandomRotation){
-            plant.transform.rotation = Quaternion.Euler(Vector3.up * Random.Range(-360,360));
+        if(seedInfo != null){
+            GameObject plant = Instantiate(seedInfo.growStages[plantStage].growModel, plantSpot.transform);
+            if(seedInfo.allowRandomRotation){
+                plant.transform.rotation = Quaternion.Euler(Vector3.up * Random.Range(-360,360));
+            }
+            hitboxBlock.SetActive(seedInfo.needsHitbox);
         }
-        hitboxBlock.SetActive(seedInfo.needsHitbox);
     }
 
     private void SetPlantByStage(){

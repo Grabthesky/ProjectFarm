@@ -11,16 +11,16 @@ public static class Serializer
         
     public static void SaveInventory(PlayerInventory data){
         FileStream fileStream = new FileStream(path + PLAYER_INVENTORY, FileMode.Create);
-
-        formatter.Serialize(fileStream, JsonUtility.ToJson(data));
+        S_PlayerInventory saveData = new S_PlayerInventory(data);
+        formatter.Serialize(fileStream, JsonUtility.ToJson(saveData));
         fileStream.Close();
     }
 
-    public static PlayerInventory LoadInventory(){
+    public static S_PlayerInventory LoadInventory(){
         Debug.Log("Loading data from: " + path);
         if(File.Exists(path + PLAYER_INVENTORY)){
             FileStream fileStream = File.Open(path + PLAYER_INVENTORY, FileMode.Open);
-            PlayerInventory data = new PlayerInventory();
+            S_PlayerInventory data = new S_PlayerInventory();
             JsonUtility.FromJsonOverwrite(formatter.Deserialize(fileStream).ToString(), data);
             fileStream.Close();
             return data;
@@ -28,18 +28,18 @@ public static class Serializer
         return null;
     }
 
-    public static void SaveCropFields(CropFieldsData data){
+    public static void SaveCropFields(S_CropFieldsData data){
         FileStream fileStream = new FileStream(path + CROP_FIELDS, FileMode.Create);
 
         formatter.Serialize(fileStream, JsonUtility.ToJson(data));
         fileStream.Close();
     }
 
-    public static CropFieldsData LoadCropFields(){
+    public static S_CropFieldsData LoadCropFields(){
         Debug.Log("Loading data from: " + path);
         if(File.Exists(path + CROP_FIELDS)){
             FileStream fileStream = File.Open(path + CROP_FIELDS, FileMode.Open);
-            CropFieldsData data = new CropFieldsData();
+            S_CropFieldsData data = new S_CropFieldsData();
             JsonUtility.FromJsonOverwrite(formatter.Deserialize(fileStream).ToString(), data);
             fileStream.Close();
             return data;

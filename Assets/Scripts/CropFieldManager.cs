@@ -5,7 +5,7 @@ using UnityEngine;
 public class CropFieldManager : MonoBehaviour
 {
 
-    private CropFieldsData saveCropFields;
+    private S_CropFieldsData saveCropFields;
 
     private void Start() {
         if(LoadSaveSystem.singleton != null && LoadSaveSystem.singleton.cropFieldsData != null){ 
@@ -30,17 +30,17 @@ public class CropFieldManager : MonoBehaviour
 
     private void GetAllCropFields(){
         GameObject[] cropFields = GameObject.FindGameObjectsWithTag("CropField");
-        saveCropFields = new CropFieldsData();
+        saveCropFields = new S_CropFieldsData();
 
         foreach (GameObject cropField in cropFields){
-            CropField saveCropField = new CropField();
+            S_CropField saveCropField = new S_CropField();
             CropFieldController cropFieldController = cropField.GetComponent<CropFieldController>();
             if(cropFieldController.hasSeed){
                 saveCropField.fieldID = cropFieldController.fieldID;
                 saveCropField.plantStage = cropFieldController.plantStage;
                 saveCropField.timeToNextStage = cropFieldController.timeToNextStage;
                 saveCropField.hasSeed = cropFieldController.hasSeed;
-                saveCropField.seedInfo = cropFieldController.seedInfo;
+                saveCropField.seedName = cropFieldController.seedInfo.seedName;
 
                 saveCropFields.saveCropFields.Add(saveCropField);
             }
@@ -51,10 +51,11 @@ public class CropFieldManager : MonoBehaviour
         GameObject[] cropFields = GameObject.FindGameObjectsWithTag("CropField");
 
         CustomTime now = new CustomTime();
+        //Debug.Log("Saved Time:" + saveCropFields.saveTime);
         long passedTime = now.GetDiffOfTime(saveCropFields.saveTime);
         
         
-        foreach (CropField cropFieldData in saveCropFields.saveCropFields)
+        foreach (S_CropField cropFieldData in saveCropFields.saveCropFields)
         {
             foreach (GameObject cropField in cropFields)
             {
@@ -63,7 +64,7 @@ public class CropFieldManager : MonoBehaviour
                     cropFieldController.plantStage = cropFieldData.plantStage;
                     cropFieldController.timeToNextStage = cropFieldData.timeToNextStage;
                     cropFieldController.hasSeed = cropFieldData.hasSeed;
-                    cropFieldController.seedInfo = cropFieldData.seedInfo;
+                    cropFieldController.seedInfo = GameManager.singleton.GetSeedByName(cropFieldData.seedName);
 
                     cropFieldController.LoadCropField();
                 }

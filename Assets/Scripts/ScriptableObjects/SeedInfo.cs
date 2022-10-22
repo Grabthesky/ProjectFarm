@@ -14,4 +14,5 @@ public class SeedInfo : ScriptableObject {
     
     public List<SEASON> growSeasons;
     public List<GrowModelInfo> growStages;
+
 }
