@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     
     public float playerSpeed = 2.0f;
+    public bool canMove = true;
 
     private CharacterController controller;
     private Vector3 playerVelocity;
@@ -27,8 +28,12 @@ public class PlayerController : MonoBehaviour
         {
             playerVelocity.y = 0f;
         }
-
-        Vector2 input = playerInput.actions["Move"].ReadValue<Vector2>();
+        
+        // If player can move
+        Vector2 input = Vector2.zero;
+        if(canMove){
+            input = playerInput.actions["Move"].ReadValue<Vector2>();
+        }
         Vector3 move = new Vector3(input.x, 0, input.y);
         controller.Move(move * Time.deltaTime * playerSpeed);
 

@@ -15,7 +15,6 @@ Shader "Custom/SeeThrough"
         Stencil{
             Ref 1
             Comp NotEqual
-            Pass Replace
         }
 
         CGPROGRAM

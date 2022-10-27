@@ -16,13 +16,13 @@ public class VisionObstructed : MonoBehaviour
         RaycastHit hit;
         if(Physics.Raycast(Camera.main.gameObject.transform.position, (transform.position - Camera.main.gameObject.transform.position).normalized, out hit, Mathf.Infinity, layerMask)){
             if(hit.collider.gameObject.tag == "Spheremask"){
-                Debug.Log("Sphere");
+                //Debug.Log("Sphere");
                 if(!isSphere){
                     isSphere = true;
                     changeSize = true;
                 }
             }else{
-                Debug.Log("Wall");
+                //Debug.Log("Wall");
                 if(isSphere){
                     isSphere = false;
                     changeSize = true;
